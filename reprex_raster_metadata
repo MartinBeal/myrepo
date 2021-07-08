@@ -1,0 +1,31 @@
+library(raster)
+#> Loading required package: sp
+
+r <- raster(system.file("external/test.grd", package="raster"))
+
+## add metadata info
+metadata(r) <- list(1)
+metadata(r)
+#> [[1]]
+#> [1] 1
+
+r@data@attributes <- list(1)
+r@data@attributes
+#> [[1]]
+#> [1] 1
+
+## save raster to disk 
+raster::writeRaster(r, filename = "test.grd", overwrite=T)
+
+## remove object from memory
+rm(r)
+
+## load saved object
+r <- raster("test.grd")
+
+## check presence of metadata/attributes -- missing!
+metadata(r)
+#> list()
+r@data@attributes
+#> list()
+Created on 2021-07-08 by the reprex package (v0.3.0)
